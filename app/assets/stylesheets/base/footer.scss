@@ -1,0 +1,35 @@
+.footer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-content: space-between;
+
+
+  bottom: 0;
+  width: 100%;
+  margin-top: 10px;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  background-color: rgba(255, 255, 255, 1);
+}
+
+li.footer-items {
+  color: #5AB475;
+  font-family: 'Fjalla One', sans-serif;
+  position: relative;
+  list-style-type: none;
+  top: 11px;
+  text-shadow: 0 0 10px rgba(125, 187, 62, .3);
+}
+
+li.cities {
+  position: relative;
+  padding-bottom: 8px;
+  top: -2px;
+}
+
+li.footer-items:hover {
+  cursor: pointer;
+  text-shadow: none;
+}

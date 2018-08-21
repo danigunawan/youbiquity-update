@@ -1,0 +1,32 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_self
+ */
+
+ // CSS Imports
+ @import "base/reset.scss";
+ @import "base/fonts.scss";
+ @import "base/colors.scss";
+ @import "base/current_user.scss";
+ @import "base/footer.scss";
+ @import "base/gear_dropdown.scss";
+ @import "base/listing.scss";
+ @import "base/main.scss";
+ @import "base/modal.scss";
+ @import "base/nav.scss";
+ @import "base/rc_slider.scss";
+ @import "base/react_select.scss";
+ @import "base/rental.scss";
+ @import "base/search.scss";
+ @import "base/transition_group.scss";
+ @import "base/map.scss";

@@ -1,0 +1,159 @@
+.overlayModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 1000;
+}
+
+.modal-session {
+  z-index: 2000;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  width: 220px;
+  height: 310px;
+  overflow: scroll;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  overflow: auto;
+  border-radius: 15px;
+  outline: none;
+  padding: 20px;
+}
+
+div.entrance.flex {
+  display: flex;
+  justify-content: space-around;
+}
+
+div.errors {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 13%;
+  left: 50%;
+  width: 400px;
+  overflow: scroll;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  overflow: auto;
+  border-radius: 15px;
+  outline: none;
+  padding: 20px;
+  transition-duration: 1500ms;
+  z-index: 99;
+  color: red;
+}
+
+div.demo {
+  justify-content: space-between;
+  margin: auto;
+}
+
+div.login {
+  margin: auto;
+}
+
+a.signup {
+  padding-right: 28px;
+  padding-left: 28px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  color: grey;
+  text-decoration: none;
+}
+
+a.login {
+  padding-right: 38px;
+  padding-left: 28px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  color: grey;
+  text-decoration: none;
+}
+
+a.activeEntranceLink {
+  background-color: #5AB475;
+  color: white;
+}
+
+h1.entrance {
+  font-family: 'Roboto', sans-serif;
+  color: grey;
+  text-align: center;
+}
+
+button {
+  box-shadow: 3px 3px 3px #888888;
+}
+
+button.shadow {
+  box-shadow: none;
+}
+
+hr{
+  color: #a9a9a9;
+  opacity: 0.3;
+}
+
+input.session[type=text],input.session[type=password] {
+  width: 200px;
+  height: 39px;
+  border-radius: 5px 5px 4px 4px;
+  background-color: #fff;
+  box-shadow: 1px 2px 5px rgba(0,0,0,.09);
+  border: solid 1px #cbc9c9;
+  margin-bottom: 10px;
+  padding-left: 15px;
+  padding-left: 15px;
+  font-size: 90%;
+}
+
+button.entrance {
+  box-shadow: 0px 1px 0px 0px #f0f7fa;
+	background-color: #69D946;
+	border-radius: 6px;
+	border: 1px solid #FFFFFF;
+	display: inline-block;
+	cursor: pointer;
+	color: #ffffff;
+	padding: 6px 24px;
+	text-decoration: none;
+  font-size: 100%;
+  position: relative;
+}
+
+button.demo {
+  box-shadow: 0px 1px 0px 0px #f0f7fa;
+	background-color: #FF0000;
+	border-radius: 6px;
+	border: 1px solid #FFFFFF;
+	display: inline-block;
+	cursor: pointer;
+	color: #ffffff;
+	padding: 6px 20px;
+	text-decoration: none;
+  font-size: 100%;
+  position: relative;
+}
+
+button.entrance:hover {
+  background-color: #42CC42;
+}
+
+div.square-logo, div.square-logo-how {
+  position: relative;
+  left: -13px;
+	height: 120px;
+	width: 240px;
+	background-image: url("http://res.cloudinary.com/dkympkwdz/image/upload/v1484586735/Youbiquity-Square-Logo_qhltkv.png");
+	background-size: contain;
+}
+
+div.square-logo-how {
+  width: 300px;
+  margin-left: 170px;
+}

@@ -1,0 +1,226 @@
+.aside-2 {
+  padding: 20px;
+  padding-top: 8px;
+  width: 60%;
+  overflow-y: scroll;
+}
+
+.aside-3 {
+  padding: 20px;
+  padding-top: 8px;
+  width: 40%;
+  overflow-y: scroll;
+}
+
+div.listing-thumbnails {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  height: 130px;
+  top: -25px;
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+}
+
+img.main-listing-image {
+  position: relative;
+  top: 5px;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+}
+
+img.listing-thumbnail {
+  height: 90px;
+  cursor: pointer;
+}
+
+img.listing-thumbnail:hover {
+  height: 90px;
+  transform: translate3d();
+}
+
+h1.listing-title {
+  font-size: 130%;
+  font-family: 'Fjalla One', sans-serif;
+  cursor: default;
+}
+
+h1.rating-title {
+  font-size: 130%;
+  font-family: 'Fjalla One', sans-serif;
+  cursor: default;
+}
+
+a.book {
+  position: relative;;
+  top: 20px;
+  left: 20px;
+  padding-right: 28px;
+  padding-left: 28px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border-radius: 5px;
+  text-decoration: none;
+  background-color: #5AB475;
+  color: white;
+
+  cursor: pointer;
+  padding: 6px 24px;
+  text-decoration: none;
+  font-size: 130%;
+  box-shadow: 3px 3px 3px #888888;
+}
+
+a.disabled {
+  cursor: not-allowed;
+  background-color: grey;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+a.book:active {
+  box-shadow: none;
+}
+
+.total {
+  font-family: 'Fjalla One', sans-serif;
+  font-size: 110%;
+  text-decoration: underline;
+}
+
+.calendar {
+  position: fixed;
+  z-index: 999;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.listing-errors {
+  color: red;
+}
+
+.success-booking {
+  color: green;
+  font-size: 120%;
+  text-decoration: underline;
+}
+
+b.listing-sub-header {
+  font-family: 'Fjalla One', sans-serif;
+}
+
+div.review-sub-header {
+  font-family: 'Fjalla One', sans-serif;
+  padding-bottom: 4px;
+}
+
+div.review-text-container {
+  padding-bottom: 10px;
+}
+
+table, th, td, tr {
+  padding: 10px;
+  width: 100%;
+}
+
+table.selection-menu {
+  table-layout: fixed;
+  width: 100%;
+}
+
+table.selection-menu td:first-child {
+  width: 90px;
+}
+
+table.rating-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+table.rating-table td {
+padding: 30px;
+font-size: 115%;
+}
+
+table.rating-table td:first-child {
+  width: 300px;
+}
+
+table.selection-menu td:last-child {
+  text-align: right;
+  padding-right: 40px;
+}
+
+table.selection-menu td {
+  padding: 20px;
+}
+
+
+.user-review-rating {
+  position: relative;
+  left: -33px;
+  top: 3px;
+  transform: scale(0.7, 0.7);
+}
+
+.rental-date {
+  margin: 10px;
+}
+
+.bold {
+  font-family: 'Fjalla One', sans-serif;
+}
+
+div.color {
+  padding-left: 50px;
+  padding-top: 7px;
+  width: 50px;
+  height: 25px;
+  color: white;
+  text-align: right;
+  padding-right: 11px;
+  position: relative;
+  right: 15px;
+}
+
+div.blue {
+  background-color: #0088FE;
+}
+
+div.green {
+  background-color: #00C49F;
+}
+
+div.yellow {
+  background-color: #FFBB28;
+}
+
+div.orange {
+  background-color: #FF8042;
+}
+
+div.red {
+  background-color: #FF0000;
+}
+
+div.rating-total {
+  padding-left: 50px;
+  padding-top: 7px;
+  width: 50px;
+  height: 25px;
+  font-size: 150%;
+}
+
+div.pie-total {
+  top: 275px;
+  left: 130px;
+  position: relative;
+  padding-left: 50px;
+  padding-top: 7px;
+  font-size: 150%;
+}
