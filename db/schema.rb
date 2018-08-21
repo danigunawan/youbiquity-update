@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -20,17 +19,15 @@ ActiveRecord::Schema.define(version: 20170111182346) do
     t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_brands_on_name", unique: true, using: :btree
   end
-
-  add_index "brands", ["name"], name: "index_brands_on_name", unique: true, using: :btree
 
   create_table "categories", force: :cascade do |t|
     t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_categories_on_name", unique: true, using: :btree
   end
-
-  add_index "categories", ["name"], name: "index_categories_on_name", unique: true, using: :btree
 
   create_table "listings", force: :cascade do |t|
     t.integer  "lessor_id",                        null: false
@@ -47,22 +44,20 @@ ActiveRecord::Schema.define(version: 20170111182346) do
     t.boolean  "active",            default: true, null: false
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.index ["brand_id"], name: "index_listings_on_brand_id", using: :btree
+    t.index ["category_id"], name: "index_listings_on_category_id", using: :btree
+    t.index ["lat"], name: "index_listings_on_lat", using: :btree
+    t.index ["lessor_id"], name: "index_listings_on_lessor_id", using: :btree
+    t.index ["lng"], name: "index_listings_on_lng", using: :btree
   end
-
-  add_index "listings", ["brand_id"], name: "index_listings_on_brand_id", using: :btree
-  add_index "listings", ["category_id"], name: "index_listings_on_category_id", using: :btree
-  add_index "listings", ["lat"], name: "index_listings_on_lat", using: :btree
-  add_index "listings", ["lessor_id"], name: "index_listings_on_lessor_id", using: :btree
-  add_index "listings", ["lng"], name: "index_listings_on_lng", using: :btree
 
   create_table "photos", force: :cascade do |t|
     t.integer  "listing_id", null: false
     t.string   "image_url",  null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["listing_id"], name: "index_photos_on_listing_id", using: :btree
   end
-
-  add_index "photos", ["listing_id"], name: "index_photos_on_listing_id", using: :btree
 
   create_table "rentals", force: :cascade do |t|
     t.integer  "listing_id", null: false
@@ -71,10 +66,9 @@ ActiveRecord::Schema.define(version: 20170111182346) do
     t.date     "end_date",   null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["lessee_id"], name: "index_rentals_on_lessee_id", using: :btree
+    t.index ["listing_id"], name: "index_rentals_on_listing_id", using: :btree
   end
-
-  add_index "rentals", ["lessee_id"], name: "index_rentals_on_lessee_id", using: :btree
-  add_index "rentals", ["listing_id"], name: "index_rentals_on_listing_id", using: :btree
 
   create_table "reviews", force: :cascade do |t|
     t.integer  "rental_id",   null: false
@@ -82,9 +76,8 @@ ActiveRecord::Schema.define(version: 20170111182346) do
     t.text     "review_text"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.index ["rental_id"], name: "index_reviews_on_rental_id", unique: true, using: :btree
   end
-
-  add_index "reviews", ["rental_id"], name: "index_reviews_on_rental_id", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "username",        null: false
@@ -92,8 +85,7 @@ ActiveRecord::Schema.define(version: 20170111182346) do
     t.string   "session_token",   null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
-
-  add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
 end
