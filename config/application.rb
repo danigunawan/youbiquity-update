@@ -24,18 +24,18 @@ module Ubiquity
     config.active_record.raise_in_transactional_callbacks = true
 
     # Redis configuration
-    if ENV["REDISTOGO_URL"]
-      config = Ubiquity::Application.config
-      uri = URI.parse(ENV["REDISTOGO_URL"])
-
-      config.cache_store = [
-        :redis_store, {
-          :host => uri.host,
-          :port => uri.port,
-          :password => uri.password,
-          :namespace => "cache"
-        }
-      ]
-    end
+    # if ENV["REDISTOGO_URL"]
+    #   config = Ubiquity::Application.config
+    #   uri = URI.parse(ENV["REDISTOGO_URL"])
+    #
+    #   config.cache_store = [
+    #     :redis_store, {
+    #       :host => uri.host,
+    #       :port => uri.port,
+    #       :password => uri.password,
+    #       :namespace => "cache"
+    #     }
+    #   ]
+    # end
   end
 end
