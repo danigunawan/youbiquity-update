@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api
+module Api
   class ReviewsController < ApplicationController
     def create
       if Rental.find(params[:review][:rental_id]).lessee != current_user

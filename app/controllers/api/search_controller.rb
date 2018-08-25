@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api
+module Api
   class SearchController < ApplicationController
     def index
       brand_filters = brand_params.empty? ? Brand.all.pluck(:name) : brand_params

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api
+module Api
   class ListingsController < ApplicationController
     def index
       if current_user

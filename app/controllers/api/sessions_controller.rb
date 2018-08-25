@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api
+module Api
   class SessionsController < ApplicationController
     def new; end
 
