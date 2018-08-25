@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 class Api::ListingsController < ApplicationController
   def index
     if current_user
-      @listings = Listing
-                  .where(lessor: current_user)
-                  .where(active: true)
-                  .includes(:rentals, rentals: [:lessee])
-                  .order("rentals.start_date")
+      @listings = Listing.
+        where(lessor: current_user).
+        where(active: true).
+        includes(:rentals, rentals: [:lessee]).
+        order("rentals.start_date")
     else
       render json: ["you are not logged in"], status: 401
     end
@@ -22,7 +24,7 @@ class Api::ListingsController < ApplicationController
     @listing.category = Category.find_by(name: params[:listing][:category])
     if @listing.save
       urls = params[:listing][:image_urls]
-      urls.each { |url| Photo.create(listing: @listing, image_url: url) } if urls
+      urls&.each { |url| Photo.create(listing: @listing, image_url: url) }
       render json: @listing, status: 200
     else
       render json: @listing.errors.full_messages, status: 422
@@ -41,16 +43,14 @@ class Api::ListingsController < ApplicationController
   private
 
   def listing_params
-    params.require(:listing)
-      .permit(
-        :listing_title,
-        :detail_desc,
-        :location,
-        :lat,
-        :lng,
-        :day_rate,
-        :replacement_value,
-        :serial
-      )
+    params.require(:listing).
+      permit(:listing_title,
+             :detail_desc,
+             :location,
+             :lat,
+            :lng,
+             :day_rate,
+             :replacement_value,
+             :serial)
   end
 end

@@ -1,13 +1,19 @@
+# frozen_string_literal: true
+
 class Api::RentalsController < ApplicationController
   def index
-    @rentals = Rental
-              .where(lessee: current_user)
-              .includes(:lessor, :listing, :review)
-              .order(:start_date)
+    @rentals = Rental.
+      where(lessee: current_user).
+      includes(:lessor, :listing, :review).
+      order(:start_date)
   end
 
   def create
-    if (Date.parse(params[:rental][:start_date]) rescue nil).nil?
+    if (begin
+          Date.parse(params[:rental][:start_date])
+        rescue StandardError
+          nil
+        end).nil?
       return render json: ["Must enter both dates"], status: 422
     end
     listing = Listing.find(params[:rental][:id])

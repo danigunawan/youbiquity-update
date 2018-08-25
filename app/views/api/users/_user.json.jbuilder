@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.extract! user, :id, :username
 json.set! :average_rating, user.average_listing_rating
 json.set! :total_count, user.review_count_received
