@@ -35,29 +35,34 @@ class User < ActiveRecord::Base
   end
 
   def average_listing_rating
-    (total_ratings_received / review_count_received.to_f).round(2)
+    avg = Listing.
+      joins(:reviews).
+      where(lessor_id: id).
+      average("reviews.review")
+
+    avg&.round(0).to_i
   end
 
   def total_ratings_received
-    listings.reduce(0) do |acc, listing|
-      acc + listing.reviews.reduce(0) do |acc2, review|
-        acc2 + review.review
-      end
-    end
+    Listing.
+      joins(:reviews).
+      where(lessor_id: id).
+      sum("reviews.review")
   end
 
   def review_count_by_rating(rating)
-    total = 0
-    listings.each do |listing|
-      listing.reviews.each do |review|
-        total += 1 if review.review == rating
-      end
-    end
-    total
+    Listing.
+      joins(:reviews).
+      where(lessor_id: id).
+      where("reviews.review = ?", rating).
+      sum("reviews.review")
   end
 
   def review_count_received
-    listings.reduce(0) { |acc, listing| acc + listing.review_count }
+    Listing.
+      joins(:reviews).
+      where(lessor_id: id).
+      count
   end
 
   private

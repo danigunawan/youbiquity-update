@@ -28,10 +28,18 @@ class Listing < ActiveRecord::Base
   # end
 
   def rating_average
-    reviews.average(:review).to_f.round(1)
+    avg = Listing.
+      joins(:reviews).
+      where(id: id).
+      average(:review)
+
+    avg&.round(0).to_i
   end
 
   def review_count
-    reviews.count
+    Listing.
+      joins(:reviews).
+      where(id: id).
+      count
   end
 end

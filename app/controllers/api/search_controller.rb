@@ -8,38 +8,25 @@ module Api
       rating_filter = rating_params.empty? ? 0 : rating_params.to_i - 0.5
       price_filter = price_params.empty? ? 99_999 : price_params
       bounds_filter = bounds_params.empty? ? nil : bounds_params
-      @listings = if bounds_filter && bounds_filter[:southWest][:lng].to_f < bounds_filter[:northEast][:lng].to_f
-                    Listing.
-                      joins(:category, :brand, :rentals, :reviews).
-                      where(categories: { name: category_filters }).
-                      where(brands: { name: brand_filters }).
-                      where(active: true).
-                      where("day_rate <= ?", price_filter).
-                      where("lat BETWEEN ? AND ?", bounds_filter[:southWest][:lat], bounds_filter[:northEast][:lat]).
-                      where("lng BETWEEN ? AND ?", bounds_filter[:southWest][:lng], bounds_filter[:northEast][:lng]).
-                      group("listings.id").
-                      having("AVG(reviews.review) >= ?", rating_filter)
-                  elsif bounds_filter
-                    Listing.
-                      joins(:category, :brand, :rentals, :reviews).
-                      where(categories: { name: category_filters }).
-                      where(brands: { name: brand_filters }).
-                      where(active: true).
-                      where("day_rate <= ?", price_filter).
-                      where("lat BETWEEN ? AND ?", bounds_filter[:southWest][:lat], bounds_filter[:northEast][:lat]).
-                      where("lng > ? OR lng < ?", bounds_filter[:southWest][:lng], bounds_filter[:northEast][:lng]).
-                      group("listings.id").
-                      having("AVG(reviews.review) >= ?", rating_filter)
-                  else
-                    Listing.
-                      joins(:category, :brand, :rentals, :reviews).
-                      where(categories: { name: category_filters }).
-                      where(brands: { name: brand_filters }).
-                      where(active: true).
-                      where("day_rate <= ?", price_filter).
-                      group("listings.id").
-                      having("AVG(reviews.review) >= ?", rating_filter)
-                  end
+
+      @listings = Listing.
+        joins(:category, :brand, :rentals, :reviews, :photos).
+        where(categories: { name: category_filters }).
+        where(brands: { name: brand_filters }).
+        where(active: true).
+        where("day_rate <= ?", price_filter).
+        group("listings.id").
+        having("AVG(reviews.review) >= ?", rating_filter)
+
+      @listings =
+        if bounds_filter && bounds_filter[:southWest][:lng].to_f < bounds_filter[:northEast][:lng].to_f
+          @listings.
+            where("lat BETWEEN ? AND ?", bounds_filter[:southWest][:lat], bounds_filter[:northEast][:lat])
+        elsif bounds_filter
+          @listings.
+            where("lat BETWEEN ? AND ?", bounds_filter[:southWest][:lat], bounds_filter[:northEast][:lat]).
+            where("lng > ? OR lng < ?", bounds_filter[:southWest][:lng], bounds_filter[:northEast][:lng])
+        end
     end
 
     private
