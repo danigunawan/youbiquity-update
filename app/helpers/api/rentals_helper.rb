@@ -1,4 +1,6 @@
 # frozen_string_literal: true
 
-module Api::RentalsHelper
+module Api
+  class RentalsHelper
+  end
 end

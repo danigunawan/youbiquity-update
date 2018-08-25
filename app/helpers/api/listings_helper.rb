@@ -1,4 +1,6 @@
 # frozen_string_literal: true
 
-module Api::ListingsHelper
+module Api
+  class ListingsHelper
+  end
 end

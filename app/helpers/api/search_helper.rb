@@ -1,4 +1,6 @@
 # frozen_string_literal: true
 
-module Api::SearchHelper
+module Api
+  class SearchHelper
+  end
 end

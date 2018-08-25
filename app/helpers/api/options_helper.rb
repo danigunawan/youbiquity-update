@@ -1,4 +1,6 @@
 # frozen_string_literal: true
 
-module Api::OptionsHelper
+module Api
+  class OptionsHelper
+  end
 end

@@ -1,4 +1,6 @@
 # frozen_string_literal: true
 
-module Api::ReviewsHelper
+module Api
+  class ReviewsHelper
+  end
 end
