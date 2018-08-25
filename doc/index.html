@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.9.16
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "README";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'>
+<h1 id="label-Welcome+to+Youbiquity-21">Welcome to Youbiquity!</h1>
+
+<p>[Youbiquity <a href="youbiquity">live]</a> [youbiquity]: <a
+href="http://www.youbiquity.io">www.youbiquity.io</a></p>
+
+<p>Youbiquity is a full-stack web application inspired by Share Grid a
+consumer-to-consumer photography equipment rental website.</p>
+
+<h2 id="label-Features+-26+Implementation">Features &amp; Implementation</h2>
+<ul><li>
+<p>Users can seamlessly and securely authenticate themselves</p>
+</li><li>
+<p>Users can search on multiple and varied properties</p>
+<ul><li>
+<p>Average rating of individual listings</p>
+</li><li>
+<p>Location properties using the Google Map API</p>
+</li><li>
+<p>Price range</p>
+</li><li>
+<p>Product Brand(s)</p>
+</li><li>
+<p>Product Category(ies)</p>
+</li></ul>
+</li><li>
+<p>Users can browse and localize listings with the Google Map API</p>
+</li><li>
+<p>Users can analyze their average rating performance</p>
+</li><li>
+<p>Users can showcase their listings with dedicated listing pages, showcasing
+a photo gallery</p>
+</li><li>
+<p>Users can schedule rentals, taking into account a multitude of scheduling
+validations</p>
+</li><li>
+<p>Users can review the associated rental information on their listings</p>
+</li></ul>
+
+<h3 id="label-Login+Modal">Login Modal</h3>
+
+<p><img src="docs/screenshots/login_modal.png"></p>
+
+<p>The use of modals was a very fitting use for the authentication UI/UX
+experience of the user.</p>
+
+<p>As soon as the AJAX call for the authentication successfully returns, a
+redirect call through the react router is triggered.</p>
+
+<pre class="code ruby"><code class="ruby">handleSubmit(e){
+	e.preventDefault();
+	const user = this.state;
+	this.props.processForm({user})
+		.then(() =&gt; this.redirect(&#39;search&#39;)
+	);
+}
+</code></pre>
+
+<h3 id="label-Google+Search+API+and+PostgreSQL+Querying">Google Search API and PostgreSQL Querying</h3>
+
+<p><img src="docs/screenshots/search.png"> The user is free to choose any
+combination of up to five different properties of each listing.</p>
+
+<p>The Google Map API allows for boundary filtering of the listing based on
+their longitutde and lattiude coordinates. A simple conditional on the
+querying allows for wrapping around the world.</p>
+
+<pre class="code ruby"><code class="ruby">.where(&quot;lat BETWEEN ? AND ?&quot;, bounds_filter[:southWest][:lat], bounds_filter[:northEast][:lat])
+</code></pre>
+
+<pre class="code ruby"><code class="ruby">.where(&quot;lng &gt; ? OR lng &lt; ?&quot;, bounds_filter[:southWest][:lng], bounds_filter[:northEast][:lng])
+</code></pre>
+
+<h3 id="label-Equipment+Listing+-2F+Booking+Immediately+Updates+Booking+Status">Equipment Listing / Booking Immediately Updates Booking Status</h3>
+
+<p><img src="docs/screenshots/listing.png"></p>
+
+<p>Overlap of scheduling conflicts are handled on the model layer.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Rental.html" title="Rental (class)">Rental</a></span></span>
+	<span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='period'>.</span><span class='id identifier rubyid_not'>not</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
+	<span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>listing:</span> <span class='id identifier rubyid_listing'>listing</span><span class='rparen'>)</span>
+	<span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='heredoc_beg'>&lt;&lt;-SQL</span><span class='comma'>,</span> <span class='label'>start_date:</span> <span class='id identifier rubyid_start_date'>start_date</span><span class='comma'>,</span> <span class='label'>end_date:</span> <span class='id identifier rubyid_end_date'>end_date</span><span class='rparen'>)</span>
+<span class='tstring_content'>		NOT( (start_date &gt;= :end_date) OR (end_date &lt;= :start_date) )
+</span><span class='heredoc_end'>	SQL
+</span></code></pre>
+
+<p>The user receives seamless visual confirmation through the use of Reacts
+Transition Group. Instead of blinking into view, the element added to the
+virtual DOM eases into place.</p>
+
+<pre class="code ruby"><code class="ruby">&lt;ReactCSSTransitionGroup
+	transitionName=&quot;example&quot;
+	transitionAppear={true}
+	transitionAppearTimeout={1000}
+	transitionEnterTimeout={1000}
+	transitionLeaveTimeout={600}&gt;
+	{ this.rentalDates() }
+&lt;/ReactCSSTransitionGroup&gt;
+</code></pre>
+
+<h3 id="label-User+Profile">User Profile</h3>
+
+<p><img src="docs/screenshots/rating_profile.png"></p>
+
+<p>The user&#39;s rating performance is visualized through the Rechart module.
+Maping through relevant user Key Performance Indicators makes the
+user&#39;s performance visually apparent.</p>
+
+<pre class="code ruby"><code class="ruby">&lt;PieChart width={500} height={500} onMouseEnter={this.onPieEnter}&gt;
+	&lt;Pie
+		data={data}
+		cx={250}
+		cy={250}
+		innerRadius={120}
+		outerRadius={160}
+		fill=&quot;#8884d8&quot;
+		paddingAngle={5} &gt;
+		{
+			data.map((entry, index) =&gt; &lt;Cell key={index} fill={COLORS[index % COLORS.length]}/&gt;)
+		}
+	&lt;/Pie&gt;
+&lt;/PieChart&gt;
+</code></pre>
+
+<p>The user performance is mostly done in the user model through a number of
+aggregations.</p>
+
+<p>In order to dry out the code for counting reviews by rating score, we pass
+a &#39;rating&#39; argument into the model method below.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>def</span> <span class='id identifier rubyid_average_listing_rating'>average_listing_rating</span>
+	<span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_total_ratings_received'>total_ratings_received</span> <span class='op'>/</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_review_count_received'>review_count_received</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span>
+<span class='kw'>end</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_total_ratings_received'>total_ratings_received</span>
+	<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_listings'>listings</span><span class='period'>.</span><span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_acc'>acc</span><span class='comma'>,</span> <span class='id identifier rubyid_listing'>listing</span><span class='op'>|</span>
+		<span class='id identifier rubyid_acc'>acc</span> <span class='op'>+</span> <span class='id identifier rubyid_listing'>listing</span><span class='period'>.</span><span class='id identifier rubyid_reviews'>reviews</span><span class='period'>.</span><span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_acc2'>acc2</span><span class='comma'>,</span> <span class='id identifier rubyid_review'>review</span><span class='op'>|</span>
+			<span class='id identifier rubyid_acc2'>acc2</span> <span class='op'>+</span> <span class='id identifier rubyid_review'>review</span><span class='period'>.</span><span class='id identifier rubyid_review'>review</span>
+		<span class='kw'>end</span>
+	<span class='kw'>end</span>
+<span class='kw'>end</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_review_count_received'>review_count_received</span>
+	<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_listings'>listings</span><span class='period'>.</span><span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_acc'>acc</span><span class='comma'>,</span> <span class='id identifier rubyid_listing'>listing</span><span class='op'>|</span> <span class='id identifier rubyid_acc'>acc</span> <span class='op'>+</span> <span class='id identifier rubyid_listing'>listing</span><span class='period'>.</span><span class='id identifier rubyid_review_count'>review_count</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_review_count_by_rating'>review_count_by_rating</span><span class='lparen'>(</span><span class='id identifier rubyid_rating'>rating</span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_total'>total</span> <span class='op'>=</span> <span class='int'>0</span>
+	<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_listings'>listings</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_listing'>listing</span><span class='op'>|</span>
+		<span class='id identifier rubyid_listing'>listing</span><span class='period'>.</span><span class='id identifier rubyid_reviews'>reviews</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_review'>review</span><span class='op'>|</span>
+			<span class='id identifier rubyid_total'>total</span> <span class='op'>+=</span> <span class='int'>1</span> <span class='kw'>if</span> <span class='id identifier rubyid_review'>review</span><span class='period'>.</span><span class='id identifier rubyid_review'>review</span> <span class='op'>==</span> <span class='id identifier rubyid_rating'>rating</span>
+		<span class='kw'>end</span>
+	<span class='kw'>end</span>
+	<span class='id identifier rubyid_total'>total</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<h3 id="label-Users+Can+Leave+Reviews+that+are+Aggregated+Immediately">Users Can Leave Reviews that are Aggregated Immediately</h3>
+
+<p><img src="docs/screenshots/reviews.png"></p>
+
+<p>User data is collected through visual rating form components.</p>
+
+<p>Each individual rating form has their own internal state for error
+handling.</p>
+
+<pre class="code ruby"><code class="ruby">handleSubmit(){
+	this.props.submitReview({review: this.state})
+		.fail((errors) =&gt; this.setState({errors: errors.responseJSON}));
+}
+
+&lt;div&gt;
+	&lt;b className=&quot;grey&quot;&gt;Enter star rating below here...&lt;/b&gt;
+	&lt;Rating defaultValue={null}
+		className=&quot;rating-filter&quot;
+		onUpdate={this.logRating}&gt;
+	&lt;/Rating&gt;
+	&lt;TextInput style={
+			{ minHeight: 80, &quot;overflow-y&quot;: &quot;auto&quot;, &quot;border&quot;: &quot;1px solid #a9a9ac&quot;, &quot;padding&quot;: &quot;10px&quot;, &quot;padding-top&quot;: &quot;0&quot; }
+		} onChange={this.logReview} placeholder=&quot;Enter review in here...&quot; allowNewLine/&gt;
+	&lt;button className=&quot;review&quot; onClick={this.handleSubmit}&gt;Submit Review!&lt;/button&gt;
+	{ this.renderErrors() }
+&lt;/div&gt;
+</code></pre>
+
+<h2 id="label-Technology">Technology</h2>
+
+<p>It utilizes the following technology:  - Notables in the Frontend (mostly
+using Javascript &amp; CSS3/HTML5)  - React  - react-redux, react-router,
+react-modal, redux, react-addons-css-transition-group, recharts  - babel,
+lodash, recharts, rc-slider, belle  - Google Map API  - Cloudinary CDN</p>
+<ul><li>
+<p>Notables in the Backend (Ruby)</p>
+<ul><li>
+<p>Rails</p>
+<ul><li>
+<p>Figaro, JBuilder, Redis</p>
+</li><li>
+<p>Figaro, JBuilder, Redis</p>
+</li></ul>
+</li><li>
+<p>PostgreSQL DB</p>
+</li><li>
+<p>Hosted on Heroku with custom Domain and Redis allocation</p>
+</li><li>
+<p>Rails</p>
+<ul><li>
+<p>Figaro, JBuilder, Redis</p>
+</li></ul>
+</li><li>
+<p>PostgreSQL DB</p>
+</li><li>
+<p>Hosted on Heroku with custom Domain and Redis allocation</p>
+</li></ul>
+</li><li>
+<p>Version Control</p>
+<ul><li>
+<p>Github</p>
+</li></ul>
+</li></ul>
+
+<h2 id="label-Project+Planning">Project Planning</h2>
+
+<p>A number of documents were prepared for the implementation of this Project
+- <a href="docs/planning_readme.md">implementation Phases</a> - <a
+href="docs/api-endpoints.md">API Endpoints</a> - <a
+href="docs/component-hierarchy.md">Component Hierarchy</a> - <a
+href="docs/sample-state.md">Sample React State</a> - <a
+href="docs/schema.md">DB Schema</a> - <a
+href="docs/wireframes">Wireframes</a></p>
+
+<h2 id="label-Future+Directions+for+the+Project">Future Directions for the Project</h2>
+
+<p>Time allowing, the following features will be implemented:</p>
+
+<h3 id="label-Rental+Requests">Rental Requests</h3>
+
+<p>Lessees must request and Lessors may approve rental requests. With every
+request and approval/denial an email would be sent to notify using the
+respective user&#39;s email on record.</p>
+
+<h3 id="label-Direct+Messaging">Direct Messaging</h3>
+
+<p>Users can leave each other messages. Messages will be automatically marked
+as read when the recipient opens it. A worker script may check at the end
+of every day whether a user has unread messages and notify the user by
+email.</p>
+
+<h3 id="label-Users+can+schedule+pick+ups+-28time-2Fday-2Flocation-29">Users can schedule pick ups (time/day/location)</h3>
+
+<p>Lessors can enter additional information on their listings that will
+automatically be shared with the lessee when a request is approved. Using
+googles calendar API, calendar entries may be sent out.</p>
+
+<h3 id="label-Lessors+can+set+rental+listing+blackout+days">Lessors can set rental listing blackout days</h3>
+
+<p>Lessors can mark blackout days for their listings to schedule days where
+equipment may not be requested.</p>
+
+<h3 id="label-Customize+Rental+Agreements">Customize Rental Agreements</h3>
+
+<p>Lessors may configure their rental stipulations using standardized options
+which will be shown on listings.</p>
+
+<h3 id="label-Public+Q-26A+on+Rental+Listing">Public Q&amp;A on Rental Listing</h3>
+
+<p>Listings may host their own public Q&amp;A board at each listing where
+prospective lessees can clarify questions and lessors can quickly announce
+additional information.</p>
+</div></div>
+
+      <div id="footer">
+  Generated on Sat Aug 25 21:44:13 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.16 (ruby-2.5.1).
+</div>
+
+    </div>
+  </body>
+</html>

@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
-RSpec.describe Brand, :type => :model do
-  context "brand has listings" do
-    it "allow listing brands" do
-      # TODO: add test case
-    end
-  end
+RSpec.describe Brand, type: :model do
+  subject { build :brand }
+  it { should validate_presence_of(:name) }
+  it { should validate_uniqueness_of(:name) }
+  it { should have_many(:listings) }
 end

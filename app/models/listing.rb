@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class Listing < ActiveRecord::Base
   validates :lessor, :listing_title, :detail_desc,
-    :location, :lat, :lng, :day_rate, :replacement_value, :serial,
-    :brand, :category, presence: true
+            :location, :lat, :lng, :day_rate, :replacement_value, :serial,
+            :brand, :category, presence: true
 
   validates :active, inclusion: { in: [true, false] }
 
@@ -30,6 +32,6 @@ class Listing < ActiveRecord::Base
   end
 
   def review_count
-    self.reviews.count
+    reviews.count
   end
 end

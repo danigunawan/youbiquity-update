@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.extract! @rental,
               :end_date,
               :id,

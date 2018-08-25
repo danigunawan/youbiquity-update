@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 @listings.each do |listing|
   json.set! listing.id do
     json.array! listing.rentals do |rental|

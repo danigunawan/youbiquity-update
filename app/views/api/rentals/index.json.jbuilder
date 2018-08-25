@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.set! :current_user do
   json.array! @rentals do |rental|
     json.set! :lessor, rental.lessor.username

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.brand_options do
   json.array! @brands
 end
