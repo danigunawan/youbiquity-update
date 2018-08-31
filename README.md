@@ -170,9 +170,9 @@ It utilizes the following technology:
 
  - Notables in the Backend (Ruby)
 	 - Rails
-		 - Figaro, JBuilder, Redis
+		 - Figaro, JBuilder
 	 - PostgreSQL DB
-	 - Hosted on Heroku with custom Domain and Redis allocation
+	 - Hosted on Heroku with custom Domain
 
 - Version Control
 	- Github
