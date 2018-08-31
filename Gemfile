@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-ruby "2.5.1p57"
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -34,7 +33,6 @@ gem "bcrypt", "~> 3.1.7"
 
 gem "faker"
 gem "figaro"
-gem "redis-rails"
 gem "rubocop", require: false
 
 group :test do

@@ -98,7 +98,7 @@ class ListingShow extends React.Component {
     let photos = this.props.listing.photos;
     const thumbnails = photos.map(photo => {
       return (
-        <img className="listing-thumbnail" onClick={this.updateThumbnail} key={photo["photo_id"]} src={photo["image_url"]}/>
+        <img className="listing-thumbnail" onClick={this.updateThumbnail} key={photo["id"]} src={photo["image_url"]}/>
       );
     });
     return (

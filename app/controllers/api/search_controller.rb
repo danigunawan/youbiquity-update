@@ -15,14 +15,10 @@ module Api
           lng: listing["lng"],
           rating_average: listing["review_average"].to_f.round(1),
           review_count: listing["review_count"],
-          photos: photos[listing["id_of_listing"]].map { |photo| { image_url: photo.image_url, photo_id: photo.id } },
+          photos: photos[listing["id_of_listing"]].map { |photo| { image_url: photo.image_url, id: photo.id } },
         }
       end
       render json: hash_return, status: 200
-    end
-
-    def bounds_wrap_around?
-      bounds_filter && bounds_filter[:southWest][:lng].to_f < bounds_filter[:northEast][:lng].to_f
     end
 
     private
@@ -45,6 +41,10 @@ module Api
 
     def bounds_filter
       params[:bounds] unless params[:bounds].blank?
+    end
+
+    def bounds_wrap_around?
+      bounds_filter && bounds_filter[:southWest][:lng].to_f < bounds_filter[:northEast][:lng].to_f
     end
 
     def sql_joins
@@ -101,8 +101,7 @@ module Api
     def listings
       @listings ||= ActiveRecord::Base.
         connection.
-        execute([sql_joins, sql_wheres, sql_group_bys].
-        join("\n"))
+        execute([sql_joins, sql_wheres, sql_group_bys].join("\n"))
     end
 
     def photos

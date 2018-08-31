@@ -21,9 +21,9 @@ export const toggleListingActivity = (id) => (
   })
 );
 
-export const fetchUserProfile = () => (
+export const fetchReviewsProfile = () => (
   $.ajax({
     method: 'GET',
-    url: `/api/users`
+    url: `/api/my_reviews`
   })
 );
