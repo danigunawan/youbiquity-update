@@ -3,10 +3,14 @@
 module Api
   class RentalsController < ApplicationController
     def index
-      @rentals = Rental.
+      return render json: { error: "not logged in" }, status: 422 unless current_user
+
+      rentals = Rental.
         where(lessee: current_user).
         includes(:lessor, :listing, :review).
         order(:start_date)
+
+      render json: translate_index(rentals), status: 200
     end
 
     def create
@@ -32,6 +36,23 @@ module Api
 
     def rental_params
       params.require(:rental).permit(:start_date, :end_date)
+    end
+
+    def translate_index(rentals)
+      {
+        rentals: rentals.map do |rental|
+          {
+            id:         rental.id,
+            lessor:     rental.lessor.username,
+            listing_id: rental.listing.id,
+            start_date: rental.start_date,
+            end_date:   rental.end_date,
+            total:      rental.total,
+            rating:     rental.try(:review).try(:review),
+            review:     rental.try(:review).try(:review_text),
+          }
+        end,
+      }
     end
   end
 end

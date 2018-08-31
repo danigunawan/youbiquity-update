@@ -1,21 +1,28 @@
 # frozen_string_literal: true
+include ActionView::Helpers::DateHelper
 
 module Api
   class ListingsController < ApplicationController
     def index
-      if current_user
-        @listings = Listing.
-          where(lessor: current_user).
-          where(active: true).
-          includes(:rentals, rentals: [:lessee]).
-          order("rentals.start_date")
-      else
-        render json: ["you are not logged in"], status: 401
-      end
+      return render json: { error: "not logged in" }, status: 401 unless current_user
+
+      listings = Listing.
+        where(lessor: current_user).
+        where(active: true).
+        includes(:rentals, rentals: [:lessee]).
+        order("rentals.start_date")
+
+      return_hash = index_translate(listings)
+      render json: return_hash, status: 200
     end
 
     def show
-      @listing = Listing.find(params[:id])
+      listing = Listing.
+        joins(:lessor, :brand, :category, :photos, :reviews, :rentals, reviews: :reviewer).
+        find(params[:id])
+      return render json: { error: "not found" }, status: 404 unless listing
+
+      render json: show_translate(listing), status: 200
     end
 
     def create
@@ -42,6 +49,55 @@ module Api
     end
 
     private
+
+    def show_translate(listing)
+      {
+        id: listing.id,
+        lessor: listing.lessor.username,
+        brand: listing.brand.name,
+        category: listing.category.name,
+        listing_title: listing.listing_title,
+        detail_desc: listing.detail_desc,
+        location: listing.location,
+        lat: listing.lat,
+        lng: listing.lng,
+        day_rate: listing.day_rate,
+        replacement_value: listing.replacement_value,
+        serial: listing.serial,
+        rating_average: listing.rating_average,
+        review_count: listing.review_count,
+        photos: listing.photos.to_a,
+        reviews: listing.
+          reviews.
+          sort { |x, y| y.created_at <=> x.created_at }.
+          map do |review|
+            {
+              id:           review.id,
+              lessee:       review.reviewer.username,
+              date:         time_ago_in_words(review.created_at),
+              rating:       review.review,
+              review_text:  review.review_text,
+            }
+          end,
+        rentals: listing.rentals.sort { |x, y| y.start_date <=> x.start_date },
+      }
+    end
+
+    def index_translate(listings)
+      return_hash = {}
+      listings.each do |listing|
+        return_hash[listing.id] = listing.rentals.map do |rental|
+          {
+            id:         rental.id,
+            start_date: rental.start_date,
+            end_date:   rental.end_date,
+            total:      rental.total,
+            lessee:     rental.lessee.username,
+          }
+        end
+      end
+      return_hash
+    end
 
     def listing_params
       params.require(:listing).

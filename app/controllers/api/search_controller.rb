@@ -15,7 +15,7 @@ module Api
           lng: listing["lng"],
           rating_average: listing["review_average"].to_f.round(1),
           review_count: listing["review_count"],
-          photos: photos[listing["id_of_listing"]].map { |photo| { image_url: photo.image_url, photo_id: photo.id } },
+          photos: photos[listing["id_of_listing"]].map { |photo| { image_url: photo.image_url, id: photo.id } },
         }
       end
       render json: hash_return, status: 200
