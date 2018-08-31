@@ -22,13 +22,19 @@ module Api
         return render json: ["Must enter both dates"], status: 422
       end
       listing = Listing.find(params[:rental][:id])
-      @rental = Rental.new(rental_params)
-      @rental.lessee_id = current_user.id
-      @rental.listing = listing
-      if @rental.save
-        render "api/rentals/show"
+      rental = Rental.new(rental_params)
+      rental.lessee_id = current_user.id
+      rental.listing = listing
+      if rental.save
+        render json: {
+          id:         rental.id,
+          start_date: rental.start_date,
+          end_date:   rental.end_date,
+          total:      rental.total,
+          lessor:     rental.lessor.username,
+        }, status: 200
       else
-        render json: @rental.errors.full_messages, status: 422
+        render json: rental.errors.full_messages, status: 422
       end
     end
 
