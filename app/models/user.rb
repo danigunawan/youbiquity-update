@@ -34,35 +34,29 @@ class User < ActiveRecord::Base
     session_token
   end
 
-  def average_listing_rating
-    avg = Listing.
-      joins(:reviews).
-      where(lessor_id: id).
-      average("reviews.review")
-
-    avg&.round(0).to_i
-  end
-
-  def total_ratings_received
-    Listing.
-      joins(:reviews).
-      where(lessor_id: id).
-      sum("reviews.review")
-  end
-
-  def review_count_by_rating(rating)
-    Listing.
-      joins(:reviews).
-      where(lessor_id: id).
-      where("reviews.review = ?", rating).
-      sum("reviews.review")
-  end
-
-  def review_count_received
-    Listing.
-      joins(:reviews).
-      where(lessor_id: id).
-      count
+  def calculated_reviews
+    @calculated_reviews ||= ActiveRecord::Base.
+      connection.
+      execute(
+        "SELECT
+          users.id,
+          users.username,
+          COUNT(*) as total_count,
+          ROUND(AVG(reviews.review), 2) as average_rating,
+          SUM(CASE WHEN reviews.review = 1 THEN 1 ELSE 0 END) as one_stars,
+          SUM(CASE WHEN reviews.review = 2 THEN 1 ELSE 0 END) as two_stars,
+          SUM(CASE WHEN reviews.review = 3 THEN 1 ELSE 0 END) as three_stars,
+          SUM(CASE WHEN reviews.review = 4 THEN 1 ELSE 0 END) as four_stars,
+          SUM(CASE WHEN reviews.review = 5 THEN 1 ELSE 0 END) as five_stars
+        FROM
+          users
+        JOIN listings ON users.id = listings.lessor_id
+        JOIN rentals ON listings.id = rentals.listing_id
+        JOIN reviews ON rentals.id = reviews.rental_id
+        WHERE users.id = #{id}
+        GROUP BY users.id, users.username
+        LIMIT 1",
+      ).first
   end
 
   private

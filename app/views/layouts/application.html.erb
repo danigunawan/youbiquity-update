@@ -25,7 +25,7 @@
       upload_preset: "<%= ENV['UPLOAD_PRESET'] %>"
     }
     <% if logged_in? %>
-      window.currentUser = <%= render( "api/users/user.json.jbuilder", user: current_user ).html_safe %>
+      window.currentUser = <%= current_user.calculated_reviews.to_json.html_safe %>
     <% end %>
   </script>
 </head>

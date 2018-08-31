@@ -40,7 +40,7 @@ export const submitReview = review => dispatch => {
     .then(() => dispatch(fetchUserRentals()));
 };
 
-export const fetchUserProfile = () => dispatch => {
-  return UserListingAPIUtil.fetchUserProfile()
+export const fetchReviewsProfile = () => dispatch => {
+  return UserListingAPIUtil.fetchReviewsProfile()
     .then((profile) => dispatch(receiveUserProfile(profile)));
 };
