@@ -21,10 +21,6 @@ module Api
       render json: hash_return, status: 200
     end
 
-    def bounds_wrap_around?
-      bounds_filter && bounds_filter[:southWest][:lng].to_f < bounds_filter[:northEast][:lng].to_f
-    end
-
     private
 
     def brand_filters
@@ -45,6 +41,10 @@ module Api
 
     def bounds_filter
       params[:bounds] unless params[:bounds].blank?
+    end
+
+    def bounds_wrap_around?
+      bounds_filter && bounds_filter[:southWest][:lng].to_f < bounds_filter[:northEast][:lng].to_f
     end
 
     def sql_joins
