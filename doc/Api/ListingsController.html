@@ -37,7 +37,7 @@
         <div id="menu">
   
     <a href="../_index.html">Index (L)</a> &raquo;
-    <span class='title'>Api</span>
+    <span class='title'><span class='object_link'><a href="../Api.html" title="Api (module)">Api</a></span></span>
      &raquo; 
     <span class="title">ListingsController</span>
   
@@ -69,12 +69,14 @@
   <dl>
     <dt>Inherits:</dt>
     <dd>
-      <span class="inheritName">ApplicationController</span>
+      <span class="inheritName"><span class='object_link'><a href="../ApplicationController.html" title="ApplicationController (class)">ApplicationController</a></span></span>
       
         <ul class="fullTree">
           <li>Object</li>
           
-            <li class="next">ApplicationController</li>
+            <li class="next">ActionController::Base</li>
+          
+            <li class="next"><span class='object_link'><a href="../ApplicationController.html" title="ApplicationController (class)">ApplicationController</a></span></li>
           
             <li class="next">Api::ListingsController</li>
           
@@ -209,6 +211,12 @@
 
 
   
+  
+  
+  
+  
+  
+  
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
@@ -229,9 +237,6 @@
       <pre class="lines">
 
 
-18
-19
-20
 21
 22
 23
@@ -241,10 +246,13 @@
 27
 28
 29
-30</pre>
+30
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/api/listings_controller.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/api/listings_controller.rb', line 21</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span>
   <span class='ivar'>@listing</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Listing.html" title="Listing (class)">Listing</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_listing_params'>listing_params</span><span class='rparen'>)</span>
@@ -253,7 +261,7 @@
   <span class='ivar'>@listing</span><span class='period'>.</span><span class='id identifier rubyid_category'>category</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Category.html" title="Category (class)">Category</a></span></span><span class='period'>.</span><span class='id identifier rubyid_find_by'>find_by</span><span class='lparen'>(</span><span class='label'>name:</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:listing</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:category</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='ivar'>@listing</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
     <span class='id identifier rubyid_urls'>urls</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:listing</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:image_urls</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_urls'>urls</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_url'>url</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../Photo.html" title="Photo (class)">Photo</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='label'>listing:</span> <span class='ivar'>@listing</span><span class='comma'>,</span> <span class='label'>image_url:</span> <span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span> <span class='rbrace'>}</span> <span class='kw'>if</span> <span class='id identifier rubyid_urls'>urls</span>
+    <span class='id identifier rubyid_urls'>urls</span><span class='op'>&amp;.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_url'>url</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../Photo.html" title="Photo (class)">Photo</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='label'>listing:</span> <span class='ivar'>@listing</span><span class='comma'>,</span> <span class='label'>image_url:</span> <span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
     <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='ivar'>@listing</span><span class='comma'>,</span> <span class='label'>status:</span> <span class='int'>200</span>
   <span class='kw'>else</span>
     <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='ivar'>@listing</span><span class='period'>.</span><span class='id identifier rubyid_errors'>errors</span><span class='period'>.</span><span class='id identifier rubyid_full_messages'>full_messages</span><span class='comma'>,</span> <span class='label'>status:</span> <span class='int'>422</span>
@@ -279,9 +287,6 @@
       <pre class="lines">
 
 
-2
-3
-4
 5
 6
 7
@@ -289,18 +294,21 @@
 9
 10
 11
-12</pre>
+12
+13
+14
+15</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/api/listings_controller.rb', line 2</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/api/listings_controller.rb', line 5</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_index'>index</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_current_user'>current_user</span>
-    <span class='ivar'>@listings</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Listing.html" title="Listing (class)">Listing</a></span></span>
-                <span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>lessor:</span> <span class='id identifier rubyid_current_user'>current_user</span><span class='rparen'>)</span>
-                <span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>active:</span> <span class='kw'>true</span><span class='rparen'>)</span>
-                <span class='period'>.</span><span class='id identifier rubyid_includes'>includes</span><span class='lparen'>(</span><span class='symbol'>:rentals</span><span class='comma'>,</span> <span class='label'>rentals:</span> <span class='lbracket'>[</span><span class='symbol'>:lessee</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-                <span class='period'>.</span><span class='id identifier rubyid_order'>order</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rentals.start_date</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='ivar'>@listings</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Listing.html" title="Listing (class)">Listing</a></span></span><span class='period'>.</span>
+      <span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>lessor:</span> <span class='id identifier rubyid_current_user'>current_user</span><span class='rparen'>)</span><span class='period'>.</span>
+      <span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>active:</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='period'>.</span>
+      <span class='id identifier rubyid_includes'>includes</span><span class='lparen'>(</span><span class='symbol'>:rentals</span><span class='comma'>,</span> <span class='label'>rentals:</span> <span class='lbracket'>[</span><span class='symbol'>:lessee</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span>
+      <span class='id identifier rubyid_order'>order</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rentals.start_date</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='kw'>else</span>
     <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>you are not logged in</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>status:</span> <span class='int'>401</span>
   <span class='kw'>end</span>
@@ -325,12 +333,12 @@
       <pre class="lines">
 
 
-14
-15
-16</pre>
+17
+18
+19</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/api/listings_controller.rb', line 14</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/api/listings_controller.rb', line 17</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_show'>show</span>
   <span class='ivar'>@listing</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Listing.html" title="Listing (class)">Listing</a></span></span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
@@ -355,17 +363,17 @@
       <pre class="lines">
 
 
-32
-33
-34
 35
 36
 37
 38
-39</pre>
+39
+40
+41
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/api/listings_controller.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/api/listings_controller.rb', line 35</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_update'>update</span>
   <span class='ivar'>@listing</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Listing.html" title="Listing (class)">Listing</a></span></span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:listing</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
@@ -385,7 +393,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sat Aug 25 21:44:14 2018 by
+  Generated on Fri Aug 31 21:33:10 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.16 (ruby-2.5.1).
 </div>
