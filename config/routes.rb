@@ -11,5 +11,7 @@ Rails.application.routes.draw do
     resources :search,    only: %i[index]
     resources :options,   only: %i[index]
     resources :reviews,   only: %i[create]
+
+    get "my_reviews", action: :my_reviews, controller: "reviews"
   end
 end

@@ -101,8 +101,7 @@ module Api
     def listings
       @listings ||= ActiveRecord::Base.
         connection.
-        execute([sql_joins, sql_wheres, sql_group_bys].
-        join("\n"))
+        execute([sql_joins, sql_wheres, sql_group_bys].join("\n"))
     end
 
     def photos
