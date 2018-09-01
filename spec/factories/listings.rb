@@ -15,5 +15,15 @@ FactoryBot.define do
     replacement_value { 1000 }
     serial { "Serial Number" }
     active { true }
+
+    trait :with_rental do
+      transient do
+        rentals_count { 1 }
+      end
+
+      after(:create) do |listing, evaluator|
+        create_list(:rental, evaluator.rentals_count, listing: listing)
+      end
+    end
   end
 end

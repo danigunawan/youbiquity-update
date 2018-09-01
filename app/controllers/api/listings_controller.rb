@@ -1,8 +1,9 @@
 # frozen_string_literal: true
-include ActionView::Helpers::DateHelper
 
 module Api
   class ListingsController < ApplicationController
+    include ActionView::Helpers::DateHelper
+
     def index
       return render json: { error: "not logged in" }, status: 401 unless current_user
 
