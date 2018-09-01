@@ -1,5 +1,5 @@
-require 'rails_helper'
+require "rails_helper"
+require "controllers/shared_examples/login_behavior"
 
-RSpec.describe SessionsController, type: :controller do
-
+RSpec.describe Api::SessionsController, type: :controller do
 end

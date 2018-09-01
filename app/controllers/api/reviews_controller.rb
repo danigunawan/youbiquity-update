@@ -20,7 +20,7 @@ module Api
       if current_user
         render json: current_user.calculated_reviews, status: 200
       else
-        render json: { message: "not logged in" }, status: 422
+        render json: { error: "not logged in" }, status: 401
       end
     end
 

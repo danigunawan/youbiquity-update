@@ -3,7 +3,7 @@
 module Api
   class RentalsController < ApplicationController
     def index
-      return render json: { error: "not logged in" }, status: 422 unless current_user
+      return render json: { error: "not logged in" }, status: 401 unless current_user
 
       rentals = Rental.
         where(lessee: current_user).

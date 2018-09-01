@@ -4,11 +4,12 @@ require "controllers/shared_examples/login_behavior"
 RSpec.describe Api::ListingsController, type: :controller do
   describe "GET index" do
     let(:current_user) { create :user, :with_listings_that_has_rental }
+    let(:action) { :index }
 
     it_behaves_like "logged and not logged in"
 
     context "logged in" do
-      before { get(:index, session: { session_token: current_user.session_token }) }
+      before { get(action, session: { session_token: current_user.session_token }) }
 
       it "returns the correct data format" do
         return_content = JSON.parse(response.body)

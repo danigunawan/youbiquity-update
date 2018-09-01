@@ -1,5 +1,5 @@
-require 'rails_helper'
+require "rails_helper"
+require "controllers/shared_examples/login_behavior"
 
-RSpec.describe OptionsController, type: :controller do
-
+RSpec.describe Api::OptionsController, type: :controller do
 end

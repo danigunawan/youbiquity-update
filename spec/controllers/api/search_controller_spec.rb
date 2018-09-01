@@ -1,5 +1,5 @@
-require 'rails_helper'
+require "rails_helper"
+require "controllers/shared_examples/login_behavior"
 
-RSpec.describe SearchController, type: :controller do
-
+RSpec.describe Api::SearchController, type: :controller do
 end
