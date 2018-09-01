@@ -10,8 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
     Modal.setAppElement(document.body);
 
     let store;
-    if (window.currentUser) {
-      const preloadedState = { session: { currentUser: window.currentUser } };
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser) {
+      const preloadedState = { session: { currentUser: currentUser } };
       store = configureStore(preloadedState);
     } else {
       store = configureStore();
@@ -19,8 +20,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const root = document.getElementById('root');
     ReactDOM.render(<Root store={ store }/>,root);
-
-
-    //TODO
-    window.store = store;
 });

@@ -25,7 +25,7 @@
       upload_preset: "<%= ENV['UPLOAD_PRESET'] %>"
     }
     <% if logged_in? %>
-      window.currentUser = <%= current_user.calculated_reviews.to_json.html_safe %>
+      window.localStorage.setItem('currentUser', JSON.stringify(<%= current_user.calculated_reviews.to_json.html_safe %>))
     <% end %>
   </script>
 </head>
