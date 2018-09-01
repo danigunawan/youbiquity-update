@@ -1,32 +1,14 @@
 require "rails_helper"
+require "controllers/shared_examples/login_behavior"
 
 RSpec.describe Api::ListingsController, type: :controller do
   describe "GET index" do
     let(:current_user) { create :user, :with_listings_that_has_rental }
 
-    context "not logged in" do
-      before { get(:index) }
-
-      it "returns 401 when not logged in" do
-        expect(response).to have_http_status(401)
-      end
-
-      it "returns correct json error" do
-        expect(response.content_type).to eq("application/json")
-        expect(JSON.parse(response.body)).to eq("error" => "not logged in")
-      end
-    end
+    it_behaves_like "logged and not logged in"
 
     context "logged in" do
       before { get(:index, session: { session_token: current_user.session_token }) }
-
-      it "returns 200 when logged in" do
-        expect(response).to have_http_status(200)
-      end
-
-      it "returns correct content_type" do
-        expect(response.content_type).to eq("application/json")
-      end
 
       it "returns the correct data format" do
         return_content = JSON.parse(response.body)
