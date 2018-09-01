@@ -34,7 +34,6 @@ gem "bcrypt", "~> 3.1.7"
 
 gem "faker"
 gem "figaro"
-gem "redis-rails"
 gem "rubocop", require: false
 
 group :test do

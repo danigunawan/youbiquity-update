@@ -7,7 +7,7 @@ import { PieChart, Pie, Sector, Cell } from 'recharts';
 class UserRating extends React.Component {
   constructor(props){
     super(props);
-    this.props.fetchUserProfile();
+    this.props.fetchReviewsProfile();
   }
 
   componentDidMount(){

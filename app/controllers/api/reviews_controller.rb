@@ -8,11 +8,19 @@ module Api
                       status: 422
       end
 
-      @review = Review.new(review_params)
-      if @review.save
-        render json: @review, status: 200
+      review = Review.new(review_params)
+      if review.save
+        render json: review, status: 200
       else
-        render json: @review.errors.full_messages, status: 422
+        render json: review.errors.full_messages, status: 422
+      end
+    end
+
+    def my_reviews
+      if current_user
+        render json: current_user.calculated_reviews, status: 200
+      else
+        render json: { message: "not logged in" }, status: 422
       end
     end
 

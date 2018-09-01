@@ -16,10 +16,6 @@ module Api
       end
     end
 
-    def index
-      @user = User.find(current_user.id)
-    end
-
     private
 
     def user_params

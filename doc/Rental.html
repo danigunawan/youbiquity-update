@@ -273,15 +273,17 @@
       <pre class="lines">
 
 
-27
-28
-29</pre>
+33
+34
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/rental.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'app/models/rental.rb', line 33</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_end_date_before_start_date?'>end_date_before_start_date?</span>
-  <span class='id identifier rubyid_errors'>errors</span><span class='period'>.</span><span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='symbol'>:drop_off</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>must be after pick up date</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_end_date'>end_date</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_start_date'>start_date</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_start_date'>start_date</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_end_date'>end_date</span>
+  <span class='id identifier rubyid_errors'>errors</span><span class='period'>.</span><span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='symbol'>:drop_off</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>must be after pick up date</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_start_date'>start_date</span> <span class='op'>&gt;=</span> <span class='id identifier rubyid_end_date'>end_date</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -303,26 +305,34 @@
       <pre class="lines">
 
 
-18
-19
 20
 21
 22
 23
 24
-25</pre>
+25
+26
+27
+28
+29
+30
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/rental.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'app/models/rental.rb', line 20</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find_overlap'>find_overlap</span>
-  <span class='const'><span class='object_link'><a href="" title="Rental (class)">Rental</a></span></span>
-    <span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='period'>.</span><span class='id identifier rubyid_not'>not</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
-    <span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>listing:</span> <span class='id identifier rubyid_listing'>listing</span><span class='rparen'>)</span>
-    <span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='heredoc_beg'>&lt;&lt;-SQL</span><span class='comma'>,</span> <span class='label'>start_date:</span> <span class='id identifier rubyid_start_date'>start_date</span><span class='comma'>,</span> <span class='label'>end_date:</span> <span class='id identifier rubyid_end_date'>end_date</span><span class='rparen'>)</span>
-<span class='tstring_content'>      NOT( (start_date &gt;= :end_date) OR (end_date &lt;= :start_date) )
-</span><span class='heredoc_end'>    SQL
-</span><span class='kw'>end</span></pre>
+  <span class='const'><span class='object_link'><a href="" title="Rental (class)">Rental</a></span></span><span class='period'>.</span>
+    <span class='id identifier rubyid_where'>where</span><span class='period'>.</span><span class='id identifier rubyid_not'>not</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='period'>.</span>
+    <span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>listing:</span> <span class='id identifier rubyid_listing'>listing</span><span class='rparen'>)</span><span class='period'>.</span>
+    <span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>? BETWEEN start_date AND end_date OR </span><span class='tstring_end'>&quot;</span></span> \
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>? BETWEEN start_date AND end_date OR </span><span class='tstring_end'>&quot;</span></span> \
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>start_date BETWEEN ? AND ? OR </span><span class='tstring_end'>&quot;</span></span> \
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>end_date BETWEEN ? AND ?</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_start_date'>start_date</span><span class='comma'>,</span> <span class='id identifier rubyid_end_date'>end_date</span><span class='comma'>,</span> <span class='id identifier rubyid_start_date'>start_date</span><span class='comma'>,</span> <span class='id identifier rubyid_end_date'>end_date</span><span class='comma'>,</span> <span class='id identifier rubyid_start_date'>start_date</span><span class='comma'>,</span> <span class='id identifier rubyid_end_date'>end_date</span>
+    <span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -365,15 +375,17 @@
       <pre class="lines">
 
 
-35
-36
-37</pre>
+43
+44
+45
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/rental.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'app/models/rental.rb', line 43</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_in_the_future?'>in_the_future?</span>
-  <span class='id identifier rubyid_errors'>errors</span><span class='period'>.</span><span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='symbol'>:dates</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>must be in the future</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_start_date'>start_date</span> <span class='op'>&lt;=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span> <span class='op'>||</span> <span class='id identifier rubyid_end_date'>end_date</span> <span class='op'>&lt;=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_start_date'>start_date</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_end_date'>end_date</span>
+  <span class='id identifier rubyid_errors'>errors</span><span class='period'>.</span><span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='symbol'>:dates</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>must be in the future</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_start_date'>start_date</span><span class='period'>.</span><span class='id identifier rubyid_past?'>past?</span> <span class='op'>||</span> <span class='id identifier rubyid_end_date'>end_date</span><span class='period'>.</span><span class='id identifier rubyid_past?'>past?</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -417,15 +429,17 @@
       <pre class="lines">
 
 
-31
-32
-33</pre>
+38
+39
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/rental.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'app/models/rental.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_overlap?'>overlap?</span>
-  <span class='id identifier rubyid_errors'>errors</span><span class='period'>.</span><span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='symbol'>:dates</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>of another rental overlap yours</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_find_overlap'>find_overlap</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_start_date'>start_date</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_end_date'>end_date</span>
+  <span class='id identifier rubyid_errors'>errors</span><span class='period'>.</span><span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='symbol'>:dates</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>of another rental overlap yours</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_find_overlap'>find_overlap</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -447,18 +461,18 @@
       <pre class="lines">
 
 
-12
-13
 14
 15
-16</pre>
+16
+17
+18</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/rental.rb', line 12</span>
+      <pre class="code"><span class="info file"># File 'app/models/rental.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_total'>total</span>
-  <span class='id identifier rubyid_days'>days</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_end_date'>end_date</span> <span class='op'>-</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_start_date'>start_date</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
-  <span class='id identifier rubyid_rate'>rate</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_listing'>listing</span><span class='period'>.</span><span class='id identifier rubyid_day_rate'>day_rate</span>
+  <span class='id identifier rubyid_days'>days</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_end_date'>end_date</span> <span class='op'>-</span> <span class='id identifier rubyid_start_date'>start_date</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='id identifier rubyid_rate'>rate</span> <span class='op'>=</span> <span class='id identifier rubyid_listing'>listing</span><span class='period'>.</span><span class='id identifier rubyid_day_rate'>day_rate</span>
   <span class='id identifier rubyid_days'>days</span> <span class='op'>*</span> <span class='id identifier rubyid_rate'>rate</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -471,7 +485,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sat Aug 25 21:44:13 2018 by
+  Generated on Fri Aug 31 21:33:10 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.16 (ruby-2.5.1).
 </div>

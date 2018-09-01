@@ -21,20 +21,27 @@ class Rental < ActiveRecord::Base
     Rental.
       where.not(id: id).
       where(listing: listing).
-      where(<<-SQL, start_date: start_date, end_date: end_date)
-        NOT( (start_date >= :end_date) OR (end_date <= :start_date) )
-      SQL
+      where(
+        "? BETWEEN start_date AND end_date OR " \
+        "? BETWEEN start_date AND end_date OR " \
+        "start_date BETWEEN ? AND ? OR " \
+        "end_date BETWEEN ? AND ?",
+        start_date, end_date, start_date, end_date, start_date, end_date
+      ).exists?
   end
 
   def end_date_before_start_date?
-    errors.add(:drop_off, "must be after pick up date") unless end_date > start_date
+    return unless start_date && end_date
+    errors.add(:drop_off, "must be after pick up date") if start_date >= end_date
   end
 
   def overlap?
-    errors.add(:dates, "of another rental overlap yours") unless find_overlap.empty?
+    return unless start_date && end_date
+    errors.add(:dates, "of another rental overlap yours") if find_overlap
   end
 
   def in_the_future?
-    errors.add(:dates, "must be in the future") if start_date <= Time.now || end_date <= Time.now
+    return unless start_date && end_date
+    errors.add(:dates, "must be in the future") if start_date.past? || end_date.past?
   end
 end
