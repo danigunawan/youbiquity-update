@@ -14,8 +14,7 @@ module Api
         sign_in(user)
         render json: user, status: 200
       else
-        error = ["Invalid username or password"]
-        render json: error, status: 401
+        render json: { error: "Invalid username or password" }, status: 401
       end
     end
 

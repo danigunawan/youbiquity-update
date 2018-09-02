@@ -12,13 +12,6 @@ module Api
     end
 
     def create
-      if (begin
-            Date.parse(params[:rental][:start_date])
-          rescue StandardError
-            nil
-          end).nil?
-        return render json: ["Must enter both dates"], status: 422
-      end
       listing = Listing.find(params[:rental][:id])
       rental = Rental.new(rental_params)
       rental.lessee_id = current_user.id
