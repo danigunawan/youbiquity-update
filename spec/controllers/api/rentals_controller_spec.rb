@@ -62,7 +62,7 @@ RSpec.describe Api::RentalsController, type: :controller do
       context "posts invalid listing_id" do
         let(:listing_id) { nil }
 
-        it "returns the correct data format" do
+        it "returns the correct error response" do
           return_content = JSON.parse(response.body)
           expect(return_content).to match_array(["Listing can't be blank"])
         end
@@ -71,7 +71,7 @@ RSpec.describe Api::RentalsController, type: :controller do
       context "posts invalid start_date" do
         let(:start_date) { nil }
 
-        it "returns the correct data format" do
+        it "returns the correct error response" do
           return_content = JSON.parse(response.body)
           expect(return_content).to match_array(["Start date can't be blank"])
         end
@@ -80,7 +80,7 @@ RSpec.describe Api::RentalsController, type: :controller do
       context "posts invalid end_date" do
         let(:end_date) { nil }
 
-        it "returns the correct data format" do
+        it "returns the correct error response" do
           return_content = JSON.parse(response.body)
           expect(return_content).to match_array(["End date can't be blank"])
         end
