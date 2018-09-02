@@ -3,9 +3,9 @@
 module Api
   class ReviewsController < ApplicationController
     def create
-      if Rental.find(params[:review][:rental_id]).lessee != current_user
-        return render json: ["You can only review your own rentals"],
-                      status: 422
+      rental = Rental.where(id: params[:review][:rental_id]).try(:first)
+      if rental.nil? || rental.lessee != current_user
+        return render json: ["You can only review your own rentals"], status: 422
       end
 
       review = Review.new(review_params)

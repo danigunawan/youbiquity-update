@@ -10,5 +10,9 @@ FactoryBot.define do
 
     start_date { start }
     end_date { ending }
+
+    trait :with_review do
+      review
+    end
   end
 end

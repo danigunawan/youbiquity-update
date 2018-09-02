@@ -3,7 +3,7 @@ require "controllers/shared_examples/login_behavior"
 
 RSpec.describe Api::OptionsController, type: :controller do
   describe "GET index" do
-    let(:current_user) { create :user, :with_listings_that_has_rental }
+    let(:current_user) { create :user, :with_listings_that_have_rented_out }
     let(:action) { :index }
     let(:params) {}
     let(:expected_keys) { ["brand_options", "category_options"] }

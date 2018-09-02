@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
 
   has_many :listings, class_name: :Listing, foreign_key: :lessor_id
   has_many :rentals, through: :listings
+  has_many :my_rentals, class_name: :Rental, foreign_key: :lessee_id
   has_many :reviews, foreign_key: :lessee_id
 
   after_initialize :ensure_session_token

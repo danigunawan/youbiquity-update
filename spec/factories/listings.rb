@@ -16,13 +16,23 @@ FactoryBot.define do
     serial { "Serial Number" }
     active { true }
 
-    trait :with_rental do
+    trait :with_rent_out do
       transient do
         rentals_count { 1 }
       end
 
       after(:create) do |listing, evaluator|
         create_list(:rental, evaluator.rentals_count, listing: listing)
+      end
+    end
+
+    trait :with_rent_out_reviews do
+      transient do
+        rentals_count { 1 }
+      end
+
+      after(:create) do |listing, evaluator|
+        create_list(:rental, evaluator.rentals_count, :with_review, listing: listing)
       end
     end
   end

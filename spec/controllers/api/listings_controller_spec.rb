@@ -18,7 +18,7 @@ RSpec.describe Api::ListingsController, type: :controller do
   let(:return_content) { JSON.parse(response.body) }
 
   describe "GET index" do
-    let(:current_user) { create :user, :with_listings_that_has_rental }
+    let(:current_user) { create :user, :with_listings_that_have_rented_out }
     let(:action) { :index }
     let(:params) {}
 
@@ -37,7 +37,7 @@ RSpec.describe Api::ListingsController, type: :controller do
   end
 
   describe "GET show" do
-    let(:current_user) { create :user, :with_listings_that_has_rental }
+    let(:current_user) { create :user, :with_listings_that_have_rented_out }
     let(:action) { :show }
     let(:params) { { id: current_user.listings.first.id } }
 
