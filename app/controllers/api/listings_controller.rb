@@ -25,29 +25,36 @@ module Api
     end
 
     def create
-      @listing = Listing.new(listing_params)
-      @listing.lessor = current_user
-      @listing.brand = Brand.find_by(name: params[:listing][:brand])
-      @listing.category = Category.find_by(name: params[:listing][:category])
-      if @listing.save
+      listing = Listing.new(listing_params)
+      listing.lessor = current_user
+      listing.brand = Brand.find_by(name: params[:listing][:brand])
+      listing.category = Category.find_by(name: params[:listing][:category])
+      if listing.save
         urls = params[:listing][:image_urls]
-        urls&.each { |url| Photo.create(listing: @listing, image_url: url) }
-        render json: @listing, status: 200
+        urls&.each { |url| Photo.create(listing: listing, image_url: url) }
+        render json: show_translate(listing), status: 200
       else
-        render json: @listing.errors.full_messages, status: 422
-      end
-    end
-
-    def update
-      @listing = Listing.where(id: params[:listing][:id])
-      if @listing.update(params[:listing][:id])
-        render "api/listings/#{@listing.id}"
-      else
-        render json: @listing.errors.full_messages, status: 422
+        render json: listing.errors.full_messages, status: 422
       end
     end
 
     private
+
+    def index_translate(listings)
+      return_hash = {}
+      listings.each do |listing|
+        return_hash[listing.id] = listing.rentals.map do |rental|
+          {
+            id:         rental.id,
+            start_date: rental.start_date,
+            end_date:   rental.end_date,
+            total:      rental.total,
+            lessee:     rental.lessee.username,
+          }
+        end
+      end
+      return_hash
+    end
 
     def show_translate(listing)
       {
@@ -82,29 +89,13 @@ module Api
       }
     end
 
-    def index_translate(listings)
-      return_hash = {}
-      listings.each do |listing|
-        return_hash[listing.id] = listing.rentals.map do |rental|
-          {
-            id:         rental.id,
-            start_date: rental.start_date,
-            end_date:   rental.end_date,
-            total:      rental.total,
-            lessee:     rental.lessee.username,
-          }
-        end
-      end
-      return_hash
-    end
-
     def listing_params
       params.require(:listing).
         permit(:listing_title,
                :detail_desc,
                :location,
                :lat,
-              :lng,
+               :lng,
                :day_rate,
                :replacement_value,
                :serial)
