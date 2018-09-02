@@ -28,7 +28,7 @@ RSpec.describe Api::ListingsController, type: :controller do
 
       it "returns the correct data format" do
         return_content = JSON.parse(response.body)
-        expect(return_content.keys).to eq(current_user.listings.pluck(:id).map(&:to_s))
+        expect(return_content.keys).to match_array(current_user.listings.pluck(:id).map(&:to_s))
         return_content.values.flatten.each do |rental_hash|
           expect(rental_hash.keys).to match_array(expected_rental_return_keys_index)
         end
