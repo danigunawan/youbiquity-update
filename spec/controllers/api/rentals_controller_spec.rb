@@ -61,25 +61,25 @@ RSpec.describe Api::RentalsController, type: :controller do
       context "posts invalid listing_id" do
         let(:listing_id) { nil }
 
-        it "returns the correct error response" do
-          expect(return_content).to match_array(["Listing can't be blank"])
-        end
+        subject { return_content }
+
+        it { should match_array(["Listing can't be blank"]) }
       end
 
       context "posts invalid start_date" do
         let(:start_date) { nil }
 
-        it "returns the correct error response" do
-          expect(return_content).to match_array(["Start date can't be blank"])
-        end
+        subject { return_content }
+
+        it { should match_array(["Start date can't be blank"]) }
       end
 
       context "posts invalid end_date" do
         let(:end_date) { nil }
 
-        it "returns the correct error response" do
-          expect(return_content).to match_array(["End date can't be blank"])
-        end
+        subject { return_content }
+
+        it { should match_array(["End date can't be blank"]) }
       end
     end
   end
