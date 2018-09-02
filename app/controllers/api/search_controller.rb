@@ -59,13 +59,12 @@ module Api
         listings.listing_title,
         AVG(reviews.review) AS review_average,
         COUNT(reviews.review) AS review_count
-      FROM
-        listings
-      JOIN users ON users.id = listings.lessor_id
-      JOIN brands ON brands.id = listings.brand_id
-      JOIN categories ON categories.id = listings.category_id
-      JOIN rentals ON rentals.listing_id = listings.id
-      JOIN reviews ON reviews.rental_id = rentals.id"
+      FROM listings
+      FULL OUTER JOIN users ON users.id = listings.lessor_id
+      FULL OUTER JOIN brands ON brands.id = listings.brand_id
+      FULL OUTER JOIN categories ON categories.id = listings.category_id
+      FULL OUTER JOIN rentals ON rentals.listing_id = listings.id
+      FULL OUTER JOIN reviews ON reviews.rental_id = rentals.id"
     end
 
     def sql_wheres
