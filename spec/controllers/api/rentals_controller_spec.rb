@@ -31,12 +31,15 @@ RSpec.describe Api::RentalsController, type: :controller do
     let(:current_user) { create :user }
     let(:listing) { create :listing }
     let(:action) { :create }
+    let(:listing_id) { listing.id }
+    let(:start_date) { 30.days.from_now }
+    let(:end_date) { 31.days.from_now }
     let(:params) do
       {
         rental: {
-          listing_id: listing.id,
-          start_date: 30.days.from_now,
-          end_date:   33.days.from_now,
+          listing_id: listing_id,
+          start_date: start_date,
+          end_date:   end_date,
         },
       }
     end
@@ -49,9 +52,38 @@ RSpec.describe Api::RentalsController, type: :controller do
     context "logged in" do
       before { get(action, params: params, session: { session_token: current_user.session_token }) }
 
-      it "returns the correct data format" do
-        return_content = JSON.parse(response.body)
-        expect(return_content.keys).to match_array(expected_rental_return_keys)
+      context "posts valid data" do
+        it "returns the correct data format" do
+          return_content = JSON.parse(response.body)
+          expect(return_content.keys).to match_array(expected_rental_return_keys)
+        end
+      end
+
+      context "posts invalid listing_id" do
+        let(:listing_id) { nil }
+
+        it "returns the correct data format" do
+          return_content = JSON.parse(response.body)
+          expect(return_content).to match_array(["Listing can't be blank"])
+        end
+      end
+
+      context "posts invalid start_date" do
+        let(:start_date) { nil }
+
+        it "returns the correct data format" do
+          return_content = JSON.parse(response.body)
+          expect(return_content).to match_array(["Start date can't be blank"])
+        end
+      end
+
+      context "posts invalid end_date" do
+        let(:end_date) { nil }
+
+        it "returns the correct data format" do
+          return_content = JSON.parse(response.body)
+          expect(return_content).to match_array(["End date can't be blank"])
+        end
       end
     end
   end
