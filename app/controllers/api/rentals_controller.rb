@@ -12,10 +12,10 @@ module Api
     end
 
     def create
-      listing = Listing.find(params[:rental][:id])
       rental = Rental.new(rental_params)
       rental.lessee_id = current_user.id
-      rental.listing = listing
+      rental.listing_id = params[:rental][:id]
+
       if rental.save
         render json: {
           id:         rental.id,
