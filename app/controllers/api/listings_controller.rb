@@ -11,7 +11,7 @@ module Api
         includes(:rentals, rentals: [:lessee]).
         order("rentals.start_date")
 
-      return_hash = index_translate(listings)
+      return_hash = index_prepare_hash(listings)
       render json: return_hash, status: 200
     end
 
@@ -21,7 +21,7 @@ module Api
         find(params[:id])
       return render json: { error: "not found" }, status: 404 unless listing
 
-      render json: show_translate(listing), status: 200
+      render json: show_prepare_hash(listing), status: 200
     end
 
     def create
@@ -32,7 +32,7 @@ module Api
       if listing.save
         urls = params[:listing][:image_urls]
         urls&.each { |url| Photo.create(listing: listing, image_url: url) }
-        render json: show_translate(listing), status: 200
+        render json: show_prepare_hash(listing), status: 200
       else
         render json: listing.errors.full_messages, status: 422
       end
@@ -40,7 +40,7 @@ module Api
 
     private
 
-    def index_translate(listings)
+    def index_prepare_hash(listings)
       return_hash = {}
       listings.each do |listing|
         return_hash[listing.id] = listing.rentals.map do |rental|
@@ -56,7 +56,7 @@ module Api
       return_hash
     end
 
-    def show_translate(listing)
+    def show_prepare_hash(listing)
       {
         id: listing.id,
         lessor: listing.lessor.username,
