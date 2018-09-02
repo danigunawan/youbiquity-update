@@ -5,10 +5,7 @@ module Api
     def index
       brands = Brand.all.pluck(:name)
       categories = Category.all.pluck(:name)
-      return_hash = {
-        brand_options: brands,
-        category_options: categories,
-      }
+      return_hash = { brand_options: brands, category_options: categories }
 
       render json: return_hash, status: 200
     end
