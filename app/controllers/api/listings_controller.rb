@@ -5,8 +5,6 @@ module Api
     include ActionView::Helpers::DateHelper
 
     def index
-      return render json: { error: "not logged in" }, status: 401 unless current_user
-
       listings = Listing.
         where(lessor: current_user).
         where(active: true).
@@ -18,8 +16,6 @@ module Api
     end
 
     def show
-      return render json: { error: "not logged in" }, status: 401 unless current_user
-
       listing = Listing.
         includes(:lessor, :brand, :category, :photos, :reviews, :rentals, reviews: :reviewer).
         find(params[:id])

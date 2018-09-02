@@ -6,7 +6,13 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   helper_method :current_user, :logged_in?
 
+  before_action :require_login
+
   private
+
+  def require_login
+    return render json: { error: "not logged in" }, status: 401 unless current_user
+  end
 
   def current_user
     @current_user ||= User.find_by_session_token(session[:session_token])
