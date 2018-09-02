@@ -4,17 +4,15 @@ module Api
   class SessionsController < ApplicationController
     skip_before_action :require_login
 
-    def new; end
-
     def create
-      @user = User.find_by_credentials(
+      user = User.find_by_credentials(
         params[:user][:username],
         params[:user][:password],
       )
 
-      if @user
-        sign_in(@user)
-        render json: @user
+      if user
+        sign_in(user)
+        render json: user, status: 200
       else
         error = ["Invalid username or password"]
         render json: error, status: 401
@@ -22,14 +20,8 @@ module Api
     end
 
     def destroy
-      @user = current_user
-      if @user
-        sign_out
-        render json: @user, status: 200
-      else
-        error = ["not logged in"]
-        render json: error, status: 404
-      end
+      sign_out
+      render json: {}, status: 200
     end
   end
 end
