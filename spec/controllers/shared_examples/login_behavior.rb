@@ -1,8 +1,6 @@
 RSpec.shared_examples "logged and not logged in" do
-  let(:current_user) { create :user }
-
   context "not logged in" do
-    before { get(action) }
+    before { get(action, params: params) }
 
     it "returns 401 when not logged in" do
       expect(response).to have_http_status(401)
@@ -15,7 +13,7 @@ RSpec.shared_examples "logged and not logged in" do
   end
 
   context "logged in" do
-    before { get(action, session: { session_token: current_user.session_token }) }
+    before { get(action, params: params, session: { session_token: current_user.session_token }) }
 
     it "returns 200 when logged in" do
       expect(response).to have_http_status(200)
