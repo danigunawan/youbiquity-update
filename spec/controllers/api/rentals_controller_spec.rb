@@ -3,6 +3,7 @@ require "controllers/shared_examples/login_behavior"
 
 RSpec.describe Api::RentalsController, type: :controller do
   let(:expected_rentals_return_keys) { ["rentals"] }
+  let(:return_content) { JSON.parse(response.body) }
 
   describe "GET index" do
     let(:current_user) { create :user, :with_listings_that_has_rental }
@@ -18,7 +19,6 @@ RSpec.describe Api::RentalsController, type: :controller do
       before { get(action, session: { session_token: current_user.session_token }) }
 
       it "returns the correct data format" do
-        return_content = JSON.parse(response.body)
         expect(return_content.keys).to match_array(expected_rentals_return_keys)
         return_content.values.flatten.each do |rental_hash|
           expect(rental_hash.keys).to match_array(expected_rental_return_keys)
@@ -54,7 +54,6 @@ RSpec.describe Api::RentalsController, type: :controller do
 
       context "posts valid data" do
         it "returns the correct data format" do
-          return_content = JSON.parse(response.body)
           expect(return_content.keys).to match_array(expected_rental_return_keys)
         end
       end
@@ -63,7 +62,6 @@ RSpec.describe Api::RentalsController, type: :controller do
         let(:listing_id) { nil }
 
         it "returns the correct error response" do
-          return_content = JSON.parse(response.body)
           expect(return_content).to match_array(["Listing can't be blank"])
         end
       end
@@ -72,7 +70,6 @@ RSpec.describe Api::RentalsController, type: :controller do
         let(:start_date) { nil }
 
         it "returns the correct error response" do
-          return_content = JSON.parse(response.body)
           expect(return_content).to match_array(["Start date can't be blank"])
         end
       end
@@ -81,7 +78,6 @@ RSpec.describe Api::RentalsController, type: :controller do
         let(:end_date) { nil }
 
         it "returns the correct error response" do
-          return_content = JSON.parse(response.body)
           expect(return_content).to match_array(["End date can't be blank"])
         end
       end

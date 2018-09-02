@@ -15,6 +15,7 @@ RSpec.describe Api::ListingsController, type: :controller do
   let(:expected_rental_return_keys_show_post) do
     ["created_at", "end_date", "id", "lessee_id", "listing_id", "start_date", "updated_at"]
   end
+  let(:return_content) { JSON.parse(response.body) }
 
   describe "GET index" do
     let(:current_user) { create :user, :with_listings_that_has_rental }
@@ -27,7 +28,6 @@ RSpec.describe Api::ListingsController, type: :controller do
       before { get(action, session: { session_token: current_user.session_token }) }
 
       it "returns the correct data format" do
-        return_content = JSON.parse(response.body)
         expect(return_content.keys).to match_array(current_user.listings.pluck(:id).map(&:to_s))
         return_content.values.flatten.each do |rental_hash|
           expect(rental_hash.keys).to match_array(expected_rental_return_keys_index)
@@ -47,7 +47,6 @@ RSpec.describe Api::ListingsController, type: :controller do
       before { get(action, params: params, session: { session_token: current_user.session_token }) }
 
       it "returns the correct data format" do
-        return_content = JSON.parse(response.body)
         expect(return_content.keys).to match_array(expected_listing_return_keys)
         return_content["rentals"].each do |rental_hash|
           expect(rental_hash.keys).to match_array(expected_rental_return_keys_show_post)
@@ -85,7 +84,6 @@ RSpec.describe Api::ListingsController, type: :controller do
       before { get(action, params: params, session: { session_token: current_user.session_token }) }
 
       it "returns the correct data format" do
-        return_content = JSON.parse(response.body)
         expect(return_content.keys).to match_array(expected_listing_return_keys)
         return_content["rentals"].each do |rental_hash|
           expect(rental_hash.keys).to match_array(expected_rental_return_keys_show_post)
