@@ -65,7 +65,7 @@ class ListingShow extends React.Component {
     const rental = {
       start_date: this.state.start_date,
       end_date: this.state.end_date,
-      id: this.state.id
+      listing_id: this.state.id
     };
     this.props.bookListing({ rental })
       .then(() => this.setSuccess())

@@ -14,7 +14,7 @@ module Api
     def create
       rental = Rental.new(rental_params)
       rental.lessee_id = current_user.id
-      rental.listing_id = params[:rental][:id]
+      rental.listing_id = params[:rental][:listing_id]
 
       if rental.save
         render json: {
