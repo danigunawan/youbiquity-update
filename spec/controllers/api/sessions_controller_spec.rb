@@ -31,7 +31,7 @@ RSpec.describe Api::SessionsController, type: :controller do
       end
 
       it "returns the correct data format" do
-        expect(return_content.keys).to match_array(["id"])
+        expect(return_content.keys).to match_array(["session_token"])
       end
     end
 
