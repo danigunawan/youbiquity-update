@@ -33,6 +33,7 @@ gem "bcrypt", "~> 3.1.7"
 
 gem "faker"
 gem "figaro"
+gem "rack-cors", require: "rack/cors"
 gem "rubocop", require: false
 
 group :test do

@@ -22,6 +22,10 @@ RSpec.describe Api::SessionsController, type: :controller do
         expect(session[:session_token]).to eq(current_user.reload.session_token)
       end
 
+      it "returns the correct session token" do
+        expect(return_content).to eq("session_token" => current_user.reload.session_token)
+      end
+
       it "returns correct content_type" do
         expect(response.content_type).to eq("application/json")
       end

@@ -12,7 +12,7 @@ module Api
 
       if user
         sign_in(user)
-        render json: { id: user.id }, status: 200
+        render json: { "session_token" => current_user.session_token }, status: 200
       else
         render json: { error: "Invalid username or password" }, status: 401
       end

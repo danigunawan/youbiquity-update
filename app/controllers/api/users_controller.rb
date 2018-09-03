@@ -8,7 +8,7 @@ module Api
       user = User.new(user_params)
       if user.save
         sign_in(user)
-        render json: { status: "ok" }, status: 200
+        render json: { session_token: user.session_token }, status: 200
       else
         render json: user.errors.full_messages, status: 422
       end

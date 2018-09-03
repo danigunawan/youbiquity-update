@@ -118,6 +118,7 @@ GEM
     pry-rails (0.3.6)
       pry (>= 0.10.4)
     rack (2.0.5)
+    rack-cors (1.0.2)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.0.7)
@@ -248,6 +249,7 @@ DEPENDENCIES
   newrelic_rpm
   pg (~> 0.15)
   pry-rails
+  rack-cors
   rails (= 5.0.7)
   rails_12factor
   rspec

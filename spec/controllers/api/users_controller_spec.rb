@@ -22,7 +22,7 @@ RSpec.describe Api::UsersController, type: :controller do
 
     context "posts valid data" do
       it "returns the correct data format" do
-        expect(return_content).to eq("status" => "ok")
+        expect(return_content).to eq("session_token" => User.last.session_token)
       end
 
       it "creates the user with correct data" do
